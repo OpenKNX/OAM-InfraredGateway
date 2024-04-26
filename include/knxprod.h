@@ -6,8 +6,6 @@
             (time & 0xC000) == 0x4000 ? (time & 0x3FFF) * 60000 : \
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                             (time & 0x3FFF) * 3600000 ) : 0 )
-#define PT_active_not active 0
-#define PT_active_active 1
 #define PT_ir_receive_switch 0
 #define PT_ir_receive_value 1
 #define PT_ir_receive_scene 2
@@ -16,13 +14,9 @@
 #define PT_switch_type_in_um 0
 #define PT_switch_type_in_on 1
 #define PT_switch_type_in_off 2
-#define PT_direction_auf 0
-#define PT_direction_ab 1
 #define PT_ir_send_switch 0
 #define PT_ir_send_value 1
 #define PT_ir_send_scene 2
-#define PT_rgb_hsv_rgb 0
-#define PT_rgb_hsv_hsv 1
 #define PT_inout_off 0
 #define PT_inout_in 1
 #define PT_inout_out 2
@@ -35,7 +29,7 @@
 #define MAIN_ApplicationVersion 0x00
 #define MAIN_OrderNumber "GW-UP1-IR.01"
 #define MAIN_ParameterSize 96
-#define MAIN_MaxKoNumber 47
+#define MAIN_MaxKoNumber 49
 
 
 
@@ -44,8 +38,8 @@
 //-----Module specific starts
 #define IR_ParamBlockOffset 0
 #define IR_ParamBlockSize 6
-#define IR_KoOffset 0
-#define IR_KoBlockSize 2
+#define IR_KoOffset 1
+#define IR_KoBlockSize 3
 
 //-----Module: ir
 #define IR_inOutType		0x0000
