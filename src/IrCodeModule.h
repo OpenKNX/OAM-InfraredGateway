@@ -54,7 +54,7 @@ class IrCodeModule : public OpenKNX::Module
 		void koHandleSwitch(GroupObject &ko, uint8_t index);
 		void koHandleValue(GroupObject &ko, uint8_t index);
 		void koHandleScene(GroupObject &ko, uint8_t index);
-		void executeSwitch(bool state);
+		void executeSwitch(bool state, uint8_t index);
 		void executeValue();
 		void executeScene();
 		void executeDimm();
@@ -267,10 +267,17 @@ void IrCodeModule::executeCode(bool state)
 	int type = ParamIR_inTypeIndex(_index);
 	switch(type)
 	{
-		case PT_ir_receive_virtual:
+		case PT_ir_receive_virtual1:
 		{
-			logDebugP("Schaltfunktion wird getriggert");
-			executeSwitch(state);
+			logDebugP("Schaltfunktion 1 wird getriggert");
+			executeSwitch(state, 0);
+			break;
+		}
+		
+		case PT_ir_receive_virtual2:
+		{
+			logDebugP("Schaltfunktion 2 wird getriggert");
+			executeSwitch(state, 1);
 			break;
 		}
 		
@@ -284,12 +291,12 @@ void IrCodeModule::executeCode(bool state)
 	}
 }
 
-void IrCodeModule::executeSwitch(bool state)
+void IrCodeModule::executeSwitch(bool state, uint8_t index)
 {
 	logDebugP("Execute Virtual Switch");
 	uint8_t btnIndex = ParamIR_inBtnNumberIndex(_index)-1;
 
-	uint16_t koNum = BTN_KoOffset + BTN_KoBlockSize * btnIndex + 1;
+	uint16_t koNum = BTN_Templ_KoOffset + BTN_Templ_KoBlockSize * btnIndex + 1 + index;
 	logDebugP("Virtual Switch %i -> %s (KO: %i)", btnIndex+1, state ? "true" : "false", koNum);
 	knx.getGroupObject(koNum).value(state, DPT_Switch);
 }
