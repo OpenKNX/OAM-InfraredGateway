@@ -20,7 +20,16 @@ class IrCodeModule : public OpenKNX::Module
 		// uint16_t flashSize() override;
 
 	private:
-		uint _state = 0;
+		enum class FuncState {
+			Idle,
+			Receive,
+			Verify,
+			Success,
+			Error
+		};
+
+		uint8_t _state = 0;
+		FuncState _funcState = FuncState::Idle;
 		IRrecv *rec;
 		IRsend *send;
 		IRData *_data;
@@ -99,13 +108,13 @@ void IrCodeModule::loop(bool configured)
 
 		case 1:
 		{
-			loopStateVerify();
+			loopStateCheck();
 			break;
 		}
 
 		case 2:
 		{
-			loopStateCheck();
+			loopStateVerify();
 			break;
 		}
 	}
@@ -132,7 +141,7 @@ void IrCodeModule::loopStateIdle()
 	}
 }
 
-void IrCodeModule::loopStateVerify()
+void IrCodeModule::loopStateCheck()
 {
 	if(rec->decode())
 	{
@@ -148,12 +157,13 @@ void IrCodeModule::loopStateVerify()
 		_data->extra = rec->decodedIRData.extra;
 
 		_state = 2;
+		_funcState = FuncState::Verify;
 		logInfoP("IR Code empfangen. Zum verifizieren erneut senden");
 		rec->resume();
 	}
 }
 
-void IrCodeModule::loopStateCheck()
+void IrCodeModule::loopStateVerify()
 {
 	if(rec->decode())
 	{
@@ -163,25 +173,29 @@ void IrCodeModule::loopStateCheck()
 		if(rec->decodedIRData.protocol != _data->protocol)
 		{
 			logErrorP("Protokoll unterschiedlich");
-			_state = 3;
+			_state = 0;
+			_funcState = FuncState::Error;
 			return;
 		}
 		if(rec->decodedIRData.address != _data->address)
 		{
 			logErrorP("Adresse unterschiedlich");
-			_state = 3;
+			_state = 0;
+			_funcState = FuncState::Error;
 			return;
 		}
 		if(rec->decodedIRData.numberOfBits != _data->numberOfBits)
 		{
 			logErrorP("NumberOfBits unterschiedlich");
-			_state = 3;
+			_state = 0;
+			_funcState = FuncState::Error;
 			return;
 		}
 		if(rec->decodedIRData.command != _data->command)
 		{
 			logErrorP("Command unterschiedlich");
-			_state = 3;
+			_state = 0;
+			_funcState = FuncState::Error;
 			return;
 		}
 
@@ -192,6 +206,7 @@ void IrCodeModule::loopStateCheck()
 		delete _data;
 
 		_state = 0;
+		_funcState = FuncState::Success;
 	}
 }
 
@@ -562,6 +577,7 @@ bool IrCodeModule::processFunctionProperty(uint8_t objectIndex, uint8_t property
 			logDebugP("Bitte IR Code senden");
 			_index = data[1];
 			_state = 1;
+			_funcState = FuncState::Receive;
 			resultData[0] = 0x00;
 			resultLength = 1;
 			break;
@@ -595,13 +611,16 @@ bool IrCodeModule::processFunctionProperty(uint8_t objectIndex, uint8_t property
 
 bool IrCodeModule::processFunctionPropertyState(uint8_t objectIndex, uint8_t propertyId, uint8_t length, uint8_t *data, uint8_t *resultData, uint8_t &resultLength)
 {
-	if(objectIndex == 0xA0 && propertyId == 0)
+	if(objectIndex == 0xA0 && propertyId == 0) return false;
+
+	switch(data[0])
 	{
-		resultData[0] = _state;
-		resultLength = 1;
-		if(_state == 3)
-			_state = 0;
-		return true;
+		case 0x01:
+		{
+			resultData[0] = (uint8_t)_funcState;
+			resultLength = 1;
+			return true;
+		}
 	}
 
 	return false;
@@ -639,7 +658,13 @@ bool IrCodeModule::processCommand(const std::string cmd, bool diagnoseKo)
 	}
 	if(command == "deleteIR" && arg.length() > 0)
 	{
-		logInfoP("Entferne index %i", _index);
+		_index = std::stoi(arg);
+		if(_index == 0)
+		{
+			logErrorP("Code 0 wird nicht unterstuetzt");
+			return true;
+		}
+		logInfoP("Entferne code %i (index %i)", _index, --_index);
 		_data = new IRData();
 		_data->protocol = decode_type_t::UNKNOWN;
 		_data->address = 0;
