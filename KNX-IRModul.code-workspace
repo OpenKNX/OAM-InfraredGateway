@@ -2,6 +2,21 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "lib/Arduino-IRremote"
+		},
+		{
+			"path": "lib/knx"
+		},
+		{
+			"path": "lib/OFM-FileTransferModule"
+		},
+		{
+			"path": "lib/OGM-Common"
+		},
+		{
+			"path": "lib/OFM-VirtualButton"
 		}
 	],
 	"settings": {

@@ -4,7 +4,7 @@ if(-Not (Test-Path -Path platformio.ini)) {
     Set-Location ..
 }
 if(-Not (Test-Path -Path platformio.ini)) {
-    Write-Output "Skript aus falschem Pfad ausgeführt..."
+    Write-Host "Skript aus falschem Pfad ausgeführt..."
     timeout /T 20
     exit 1
 }
@@ -12,20 +12,20 @@ $projectDir = Get-Location
 
 if($env -eq $null)
 {
-    Write-Output "No environment specified. Will search for release..."
-    $content = Get-Content $projectDir/platformio.ini -raw
+    Write-Host "No environment specified. Will search for release..."
+    $content = Get-Content $projectDir/platformio.custom.ini -raw
     if($content -match '\[env:(release_.*)\]')
     {
-        Write-Output "Found release $($Matches.1)"
+        Write-Host "Found release $($Matches.1)"
         $env = $Matches.1
     } else {
-        Write-Output "Didnt found host"
+        Write-Host "Didnt found host"
         timeout /T 20
         exit 1
     }
 }
 
-if ($IsMacOS -or $IsLinux) { ~/.platformio/penv/bin/pio run -e $env -t upload }
-else { ~/.platformio/penv/Scripts/pio.exe run -e $env -t upload } 
+if ($IsMacOS -or $IsLinux) { ~/.platformio/penv/bin/pio run -e $env }
+else { ~/.platformio/penv/Scripts/pio.exe run -t upload -e $env } 
 
 timeout /T 20
