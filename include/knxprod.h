@@ -21,10 +21,13 @@
 //--------------------Allgemein---------------------------
 #define MAIN_OpenKnxId 0xA4
 #define MAIN_ApplicationNumber 0x00
-#define MAIN_ApplicationVersion 0x04
+#define MAIN_ApplicationVersion 0x05
 #define MAIN_OrderNumber "GW-UP1-IR.01"
 #define MAIN_ParameterSize 2799
 #define MAIN_MaxKoNumber 153
+
+#define BTN_KoCalcNumber(index) (index + BTN_Templ_KoOffset + _channelIndex * BTN_Templ_KoBlockSize)
+#define BTN_KoCalcIndex(number) ((number >= BTN_KoCalcNumber(0) && number < BTN_KoCalcNumber(BTN_Templ_KoBlockSize)) ? (number - BTN_Templ_KoOffset) % BTN_Templ_KoBlockSize : -1)
 
 
 
@@ -47,9 +50,6 @@
 #define BTN_Share_KoBlockSize 0
 #define BTN_Templ_KoOffset 33
 #define BTN_Templ_KoBlockSize 12
-
-#define BTN_KoCalcNumber(index) (index + BTN_Templ_KoOffset + _channelIndex * BTN_Templ_KoBlockSize)
-#define BTN_KoCalcIndex(number) ((number >= BTN_KoCalcNumber(0) && number < BTN_KoCalcNumber(BTN_Templ_KoBlockSize)) ? (number - BTN_Templ_KoOffset) % BTN_Templ_KoBlockSize : -1)
 
 //-----Module: ir
 #define IR_inOutType		0x0000
@@ -1011,10 +1011,12 @@
 // UnionOffset: 266, ParaOffset: 0, Size: 8 Bit (1 Byte), Text: Schwellwert
 #define ParamBTN_ChannelStatusThreshold ((uint)((knx.paramByte((BTN_Templ_ParamBlockOffset + BTN_Templ_ParamBlockSize * channelIndex() + BTN_ChannelStatusThreshold)))))
 #define BTN_ChannelStatusFallbackBase		0x010B
-// UnionOffset: 266, ParaOffset: 1, Size: 8 Bit (1 Byte), Text: Zeitbasis
-#define ParamBTN_ChannelStatusFallbackBaseIndex(X) ((uint)((knx.paramByte((BTN_Templ_ParamBlockOffset + BTN_Templ_ParamBlockSize * X + BTN_ChannelStatusFallbackBase)))))
-// UnionOffset: 266, ParaOffset: 1, Size: 8 Bit (1 Byte), Text: Zeitbasis
-#define ParamBTN_ChannelStatusFallbackBase ((uint)((knx.paramByte((BTN_Templ_ParamBlockOffset + BTN_Templ_ParamBlockSize * channelIndex() + BTN_ChannelStatusFallbackBase)))))
+#define BTN_ChannelStatusFallbackBase_Shift	6
+#define BTN_ChannelStatusFallbackBase_Mask	0x0003
+// UnionOffset: 266, ParaOffset: 1, Size: 2 Bit, Text: Zeitbasis
+#define ParamBTN_ChannelStatusFallbackBaseIndex(X) ((uint)((knx.paramByte((BTN_Templ_ParamBlockOffset + BTN_Templ_ParamBlockSize * X + BTN_ChannelStatusFallbackBase)) >> BTN_ChannelStatusFallbackBase_Shift) & BTN_ChannelStatusFallbackBase_Mask))
+// UnionOffset: 266, ParaOffset: 1, Size: 2 Bit, Text: Zeitbasis
+#define ParamBTN_ChannelStatusFallbackBase ((uint)((knx.paramByte((BTN_Templ_ParamBlockOffset + BTN_Templ_ParamBlockSize * channelIndex() + BTN_ChannelStatusFallbackBase)) >> BTN_ChannelStatusFallbackBase_Shift) & BTN_ChannelStatusFallbackBase_Mask))
 #define BTN_ChannelStatusFallbackTime		0x010B
 #define BTN_ChannelStatusFallbackTime_Mask	0x3FFF
 // UnionOffset: 266, ParaOffset: 1, BitOffset: 2, Size: 14 Bit, Text: Zeit
