@@ -146,7 +146,10 @@ void IrCodeModule::loopStateCheck()
 	if(rec->decode())
 	{
 		rec->resume();
+		//skip invalid codes
 		if(rec->decodedIRData.protocol == 0 || rec->decodedIRData.address == 0 || rec->decodedIRData.numberOfBits == 0) return;
+		//skip if code is repeated (like holding button)
+		if(rec->decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT) return;
 
 		_data = new IRData();
 		_data->protocol = rec->decodedIRData.protocol;
@@ -168,7 +171,10 @@ void IrCodeModule::loopStateVerify()
 	if(rec->decode())
 	{
 		rec->resume();
+		//skip invalid codes
 		if(rec->decodedIRData.protocol == 0 || rec->decodedIRData.address == 0 || rec->decodedIRData.numberOfBits == 0) return;
+		//skip if code is repeated (like holding button)
+		if(rec->decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT) return;
 
 		if(rec->decodedIRData.protocol != _data->protocol)
 		{
