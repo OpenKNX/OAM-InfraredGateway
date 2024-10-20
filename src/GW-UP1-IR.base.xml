@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<KNX xmlns:op="http://github.com/OpenKNX/OpenKNXproducer" xmlns="http://knx.org/xml/project/20" CreatedBy="KNX MT" ToolVersion="5.1.255.16695">
+  <ManufacturerData>
+    <Manufacturer>
+      <ApplicationPrograms>
+        <ApplicationProgram>
+          <Static>
+            <ParameterTypes>
+              <ParameterType Id="%AID%_PT-BTNInputs" Name="BTNInputs">
+                <TypeRestriction Base="Value" SizeInBit="16">
+                  <Enumeration Text="Externes KO" Value="0" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 1" Value="201" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 2" Value="202" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 3" Value="203" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 4" Value="204" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 5" Value="205" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 6" Value="206" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 7" Value="207" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 8" Value="208" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 9" Value="209" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 10" Value="210" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 11" Value="211" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 12" Value="212" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 13" Value="213" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 14" Value="214" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 15" Value="215" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 16" Value="216" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 17" Value="217" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 18" Value="218" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 19" Value="219" Id="%ENID%" />
+                  <Enumeration Text="IR-Taste 20" Value="220" Id="%ENID%" />
+                </TypeRestriction>
+              </ParameterType>
+            </ParameterTypes>
+            <Parameters>
+            </Parameters>
+            <ParameterRefs>
+            </ParameterRefs>
+            <ComObjectTable>
+            </ComObjectTable>
+            <ComObjectRefs>
+            </ComObjectRefs>
+            <Extension>
+              <Baggage RefId="%FILE-HELP-de%" />
+              <Baggage RefId="%FILE-ICONS%" />
+            </Extension>
+          </Static>
+          <Dynamic>
+          </Dynamic>
+        </ApplicationProgram>
+      </ApplicationPrograms>
+      <Baggages>
+        <Baggage TargetPath="" Name="Help_de.zip" Id="%FILE-HELP-de%">
+          <FileInfo TimeInfo="%DATETIME%" />
+        </Baggage>
+        <Baggage TargetPath="" Name="Icons.zip" Id="%FILE-ICONS%">
+          <FileInfo TimeInfo="%DATETIME%" />
+        </Baggage>
+      </Baggages>
+    </Manufacturer>
+  </ManufacturerData>
+</KNX>
