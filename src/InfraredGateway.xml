@@ -9,14 +9,14 @@
   <op:ETS
     OpenKnxId="0xA4"
     ApplicationNumber="0"
-    ApplicationVersion="0.1"
-    ReplacesVersions="0"
+    ApplicationVersion="0.2"
+    ReplacesVersions="0.1"
     ApplicationRevision="0"
     ProductName="Infrarot-Gateway"
     BusCurrent="10"
     BuildSuffix=""
     BuildSuffixText=""
-    OrderNumber="GW-UP1-IR" />
+    OrderNumber="InfraredGateway" />
 
   <op:define prefix="BASE" ModuleType="10"
     share="../lib/OGM-Common/src/Common.share.xml">
@@ -24,7 +24,7 @@
   </op:define>
 
   <op:define prefix="OAM" ModuleType="99"
-    share="../src/GW-UP1-IR.base.xml">
+    share="../src/InfraredGateway.base.xml">
   </op:define>
 
   <op:define prefix="UCT" ModuleType="19"
@@ -50,7 +50,7 @@
     share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
     template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
     NumChannels="20" KoOffset="100">
-    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.3" /> 
+    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.5" /> 
   </op:define>
 
   <generate />

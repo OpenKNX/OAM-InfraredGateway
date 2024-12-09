@@ -12,7 +12,7 @@
                 "--Debug",
                 "-h",
                 "include/knxprod.h",
-                "src/GW-UP1-IR"
+                "src/InfraredGateway"
             ],
             "problemMatcher": [],
             "group": "test"
