@@ -1,7 +1,6 @@
 #include "OpenKNXHardware.h"
 
-#define CODE_COUNT 256
-#define CODE_SIZE 15
+#pragma once
+#include "HardwareConfig.h"
 
-#define IR_PIN_REC 13
-#define IR_PIN_SEND 2
+#define FIRMWARE_NAME "Infrared Gateway"
