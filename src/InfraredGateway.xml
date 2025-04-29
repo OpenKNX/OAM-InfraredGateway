@@ -36,7 +36,7 @@
     share="../lib/OFM-Infrared/src/InfraredModule.share.xml"
     template="../lib/OFM-Infrared/src/InfraredModule.templ.xml"
     NumChannels="20" KoOffset="201">
-    <op:verify File="../lib/OFM-Infrared/library.json" ModuleVersion="0.1" /> 
+    <op:verify File="../lib/OFM-Infrared/library.json" ModuleVersion="0.3" /> 
   </op:define>
 
   <op:define prefix="BTN" ModuleType="30"

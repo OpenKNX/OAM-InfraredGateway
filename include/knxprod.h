@@ -16,7 +16,7 @@
 #define MAIN_OrderNumber "InfraredGateway"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
-#define IR_ModuleVersion 1
+#define IR_ModuleVersion 3
 #define BTN_ModuleVersion 5
 #define LOG_ModuleVersion 53
 // Parameter with single occurrence
